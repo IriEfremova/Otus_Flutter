@@ -82,6 +82,11 @@ class CocktailDetailPage extends StatelessWidget {
                   style: TextStyle(fontSize: 15, color: Colors.white),
                 ),
               ),
+              // В виджетах где есть child, для удобства чтения, принято определять  child ниже всех свойств
+              // т.е в этом случае будет 
+              // padding
+              // decoration
+              // child
               Container(
                   padding: EdgeInsets.all(8.0),
                   child: Text(
@@ -150,6 +155,16 @@ class CocktailDetailPage extends StatelessWidget {
         ),
       ),
     );
+    // Очень сложное решение для этой задачи
+    // У dart есть spread оператор + map метод у Iterable
+    // Тогда запись будет выглядить примерно так
+    // Column(
+    //  children: [
+    //  ...cocktail.ingredients.map((e) => ... В этом месте преобразуем в нужный нам виджет)
+    //
+    //
+    //  ]
+     //)
     if (cocktail.ingredients.isNotEmpty) {
       var it = cocktail.ingredients.iterator;
       while (it.moveNext()) {
@@ -159,6 +174,9 @@ class CocktailDetailPage extends StatelessWidget {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
+                // Нужно использовать Flexible для дочерних виджетов, 
+                // Чтобы понять в чем проблема, попробуйте запустить на узком экране,
+                // либо подставить вместо it.current.ingredientName длинный текст
                 Container(
                   decoration: BoxDecoration(
                     border: Border(
@@ -214,6 +232,8 @@ class CocktailDetailPage extends StatelessWidget {
   }
 
   Widget _buildStar() {
+// т.к stars будут находится внутри Row, нужно использовать Flexible
+// иначе на узких экранах наши виджеты не вместятся и мы получим ошибку
     final stars = List<Widget>.generate(
       5,
       (index) => Container(
