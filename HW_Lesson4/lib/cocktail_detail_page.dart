@@ -17,7 +17,7 @@ class CocktailDetailPage extends StatelessWidget {
       backgroundColor: Color.fromARGB(255, 26, 25, 39),
       body: SingleChildScrollView(
         child: Container(
-          padding: EdgeInsets.only(top:25),
+          padding: EdgeInsets.only(top: 25),
           child: Column(
             children: <Widget>[
               _buildImage(),
@@ -83,15 +83,15 @@ class CocktailDetailPage extends StatelessWidget {
                 ),
               ),
               Container(
-                  padding: EdgeInsets.all(8.0),
-                  child: Text(
-                    cocktail.category.name,
-                    style: TextStyle(fontSize: 15, color: Colors.white),
-                  ),
-                  decoration: BoxDecoration(
-                      color: Colors.black54,
-                      borderRadius: BorderRadius.circular(15)) //BoxDecoration
-                  ),
+                padding: EdgeInsets.all(8.0),
+                decoration: BoxDecoration(
+                    color: Colors.black54,
+                    borderRadius: BorderRadius.circular(15)), //BoxDecoration
+                child: Text(
+                  cocktail.category.name,
+                  style: TextStyle(fontSize: 15, color: Colors.white),
+                ),
+              ),
               Padding(
                 padding: EdgeInsets.only(top: 13, bottom: 8),
                 child: Text(
@@ -139,54 +139,56 @@ class CocktailDetailPage extends StatelessWidget {
   }
 
   Widget _buildIngredients() {
-    List<Widget> list = new List();
-    list.add(
-      Padding(
-        padding: EdgeInsets.only(top: 1),
-        child: Text(
-          "Ингредиенты:",
-          textAlign: TextAlign.center,
-          style: TextStyle(fontSize: 16, color: Colors.grey),
-        ),
-      ),
-    );
-    if (cocktail.ingredients.isNotEmpty) {
-      var it = cocktail.ingredients.iterator;
-      while (it.moveNext()) {
-        list.add(
-          Padding(
-            padding: EdgeInsets.only(top: 10),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Container(
-                  decoration: BoxDecoration(
-                    border: Border(
-                      bottom: BorderSide(width: 1.0, color: Colors.white),
-                    ),
-                  ),
-                  child: Text(
-                    it.current.ingredientName,
-                    style: TextStyle(color: Colors.white),
-                  ),
-                ),
-                Text(
-                  it.current.measure,
-                  style: TextStyle(color: Colors.white),
-                ),
-              ],
-            ),
-          ),
-        );
-      }
-    }
-
     return Container(
       padding: EdgeInsets.all(20),
       color: Colors.black,
-      child: Column(
-        children: list,
-      ),
+      child: Column(children: [
+        Padding(
+          padding: EdgeInsets.only(top: 1),
+          child: Text(
+            "Ингредиенты:",
+            textAlign: TextAlign.center,
+            style: TextStyle(fontSize: 16, color: Colors.grey),
+          ),
+        ),
+        Container(
+          child: Column(
+            children: cocktail.ingredients
+                .map(
+                  (e) => Padding(
+                    padding: EdgeInsets.only(top: 10),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Flexible(
+                          child: Container(
+                            margin: EdgeInsets.only(right: 20),
+                            decoration: BoxDecoration(
+                              border: Border(
+                                bottom:
+                                    BorderSide(width: 1.0, color: Colors.white),
+                              ),
+                            ),
+                            child: Text(
+                              e.ingredientName,
+                              style: TextStyle(color: Colors.white),
+                            ),
+                          ),
+                        ),
+                        Flexible(
+                          child: Text(
+                            e.measure,
+                            style: TextStyle(color: Colors.white),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                )
+                .toList(),
+          ),
+        ),
+      ]),
     );
   }
 
@@ -206,7 +208,11 @@ class CocktailDetailPage extends StatelessWidget {
           ),
           Text(
             cocktail.instruction,
-            style: TextStyle(fontSize: 14, color: Colors.white, height: 1.5,),
+            style: TextStyle(
+              fontSize: 14,
+              color: Colors.white,
+              height: 1.5,
+            ),
           ),
         ],
       ),
@@ -216,16 +222,18 @@ class CocktailDetailPage extends StatelessWidget {
   Widget _buildStar() {
     final stars = List<Widget>.generate(
       5,
-      (index) => Container(
-        padding: EdgeInsets.all(5.0),
-        child: Icon(
-          Icons.star,
-          size: 35,
-          color: Colors.white,
+      (index) => Flexible(
+        child: Container(
+          padding: EdgeInsets.all(5.0),
+          child: Icon(
+            Icons.star,
+            size: 35,
+            color: Colors.white,
+          ),
+          decoration: BoxDecoration(
+              color: Color.fromARGB(255, 42, 41, 58),
+              shape: BoxShape.circle), //BoxDecoration
         ),
-        decoration: BoxDecoration(
-            color: Color.fromARGB(255, 42, 41, 58),
-            shape: BoxShape.circle), //BoxDecoration
       ),
     );
 
